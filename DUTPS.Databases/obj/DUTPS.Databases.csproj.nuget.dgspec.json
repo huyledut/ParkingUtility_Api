@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Code\\Source_Tree\\ParkingUtility_Api\\DUTPS.Databases\\DUTPS.Databases.csproj": {}
+    "C:\\Users\\Binh Phan\\Desktop\\BackEndAPIParking\\ParkingUtility_Api\\DUTPS.Databases\\DUTPS.Databases.csproj": {}
   },
   "projects": {
-    "D:\\Code\\Source_Tree\\ParkingUtility_Api\\DUTPS.Commons\\DUTPS.Commons.csproj": {
+    "C:\\Users\\Binh Phan\\Desktop\\BackEndAPIParking\\ParkingUtility_Api\\DUTPS.Commons\\DUTPS.Commons.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Code\\Source_Tree\\ParkingUtility_Api\\DUTPS.Commons\\DUTPS.Commons.csproj",
+        "projectUniqueName": "C:\\Users\\Binh Phan\\Desktop\\BackEndAPIParking\\ParkingUtility_Api\\DUTPS.Commons\\DUTPS.Commons.csproj",
         "projectName": "DUTPS.Commons",
-        "projectPath": "D:\\Code\\Source_Tree\\ParkingUtility_Api\\DUTPS.Commons\\DUTPS.Commons.csproj",
-        "packagesPath": "C:\\Users\\congu\\.nuget\\packages\\",
-        "outputPath": "D:\\Code\\Source_Tree\\ParkingUtility_Api\\DUTPS.Commons\\obj\\",
+        "projectPath": "C:\\Users\\Binh Phan\\Desktop\\BackEndAPIParking\\ParkingUtility_Api\\DUTPS.Commons\\DUTPS.Commons.csproj",
+        "packagesPath": "C:\\Users\\Binh Phan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Binh Phan\\Desktop\\BackEndAPIParking\\ParkingUtility_Api\\DUTPS.Commons\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\congu\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Binh Phan\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -45,7 +43,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -54,36 +53,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Code\\Source_Tree\\ParkingUtility_Api\\DUTPS.Databases\\DUTPS.Databases.csproj": {
+    "C:\\Users\\Binh Phan\\Desktop\\BackEndAPIParking\\ParkingUtility_Api\\DUTPS.Databases\\DUTPS.Databases.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Code\\Source_Tree\\ParkingUtility_Api\\DUTPS.Databases\\DUTPS.Databases.csproj",
+        "projectUniqueName": "C:\\Users\\Binh Phan\\Desktop\\BackEndAPIParking\\ParkingUtility_Api\\DUTPS.Databases\\DUTPS.Databases.csproj",
         "projectName": "DUTPS.Databases",
-        "projectPath": "D:\\Code\\Source_Tree\\ParkingUtility_Api\\DUTPS.Databases\\DUTPS.Databases.csproj",
-        "packagesPath": "C:\\Users\\congu\\.nuget\\packages\\",
-        "outputPath": "D:\\Code\\Source_Tree\\ParkingUtility_Api\\DUTPS.Databases\\obj\\",
+        "projectPath": "C:\\Users\\Binh Phan\\Desktop\\BackEndAPIParking\\ParkingUtility_Api\\DUTPS.Databases\\DUTPS.Databases.csproj",
+        "packagesPath": "C:\\Users\\Binh Phan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Binh Phan\\Desktop\\BackEndAPIParking\\ParkingUtility_Api\\DUTPS.Databases\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\congu\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Binh Phan\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Code\\Source_Tree\\ParkingUtility_Api\\DUTPS.Commons\\DUTPS.Commons.csproj": {
-                "projectPath": "D:\\Code\\Source_Tree\\ParkingUtility_Api\\DUTPS.Commons\\DUTPS.Commons.csproj"
+              "C:\\Users\\Binh Phan\\Desktop\\BackEndAPIParking\\ParkingUtility_Api\\DUTPS.Commons\\DUTPS.Commons.csproj": {
+                "projectPath": "C:\\Users\\Binh Phan\\Desktop\\BackEndAPIParking\\ParkingUtility_Api\\DUTPS.Commons\\DUTPS.Commons.csproj"
               }
             }
           }
@@ -129,7 +126,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -141,7 +139,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }
