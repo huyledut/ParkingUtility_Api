@@ -95,6 +95,7 @@ services
 
 services.AddTransient<ITokenService, TokenService>();
 services.AddTransient<IAuthenticationService, AuthenticationService>();
+services.AddTransient<ICommonService, CommonService>();
 
 services.AddCors(o =>
                 o.AddPolicy("CorsPolicy", builder =>
