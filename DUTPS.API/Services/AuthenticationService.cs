@@ -18,6 +18,7 @@ namespace DUTPS.API.Services
     Task<ResponseInfo> Login(UserLoginDto userLoginDto);
     Task<ResponseInfo> Register(UserRegisterDto userRegisterDto);
     Task<ProfileDto> GetProfile(string username);
+    Task<ResponseInfo> UpdateProfile(string username, UpdateProfileDto profileDto);
   }
   public class AuthenticationService : IAuthenticationService
   {
@@ -170,6 +171,44 @@ namespace DUTPS.API.Services
           Description = y.Description
         }).ToList()
       }).FirstOrDefaultAsync(x => x.Username == username);
+    }
+
+    public async Task<ResponseInfo> UpdateProfile(string username, UpdateProfileDto profileDto)
+    {
+      IDbContextTransaction transaction = null;
+      try
+      {
+        var responeInfo = new ResponseInfo();
+        username = username.ToLower();
+        var currentUser = await _context.Users.Include(x => x.Information).FirstOrDefaultAsync(x => x.Username == username);
+
+        if (currentUser == null)
+        {
+          responeInfo.Code = CodeResponse.NOT_FOUND;
+          responeInfo.Message = "Not found user";
+          return responeInfo;
+        }
+
+        _logger.LogInformation("Ok");
+
+        currentUser.Information.Name = profileDto.Name;
+        currentUser.Information.Birthday = profileDto.Birthday;
+        currentUser.Information.Gender = profileDto.Gender;
+        currentUser.Information.FacultyId = profileDto.FacultyId;
+        currentUser.Information.Class = profileDto.Class;
+        currentUser.Information.PhoneNumber = profileDto.PhoneNumber;
+
+        transaction = await _context.Database.BeginTransactionAsync();
+        await _context.SaveChangesAsync();
+        await transaction.CommitAsync();
+        responeInfo.Data.Add("username", currentUser.Username);
+        return responeInfo;
+      }
+      catch (Exception)
+      {
+        await DataContext.RollbackAsync(transaction);
+        throw;
+      }
     }
   }
 }
