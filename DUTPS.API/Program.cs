@@ -1,4 +1,5 @@
 using System.Text;
+using DUTPS.API.Services;
 using DUTPS.Databases;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -92,6 +93,8 @@ services
 
 
 
+services.AddTransient<ITokenService, TokenService>();
+services.AddTransient<IAuthenticationService, AuthenticationService>();
 
 services.AddCors(o =>
                 o.AddPolicy("CorsPolicy", builder =>
