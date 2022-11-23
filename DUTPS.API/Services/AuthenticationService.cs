@@ -1,6 +1,8 @@
 using System.Security.Cryptography;
 using System.Text;
 using DUTPS.API.Dtos.Authentication;
+using DUTPS.API.Dtos.Profile;
+using DUTPS.API.Dtos.Vehicals;
 using DUTPS.Commons.CodeMaster;
 using DUTPS.Commons.Enums;
 using DUTPS.Commons.Schemas;
@@ -15,6 +17,7 @@ namespace DUTPS.API.Services
   {
     Task<ResponseInfo> Login(UserLoginDto userLoginDto);
     Task<ResponseInfo> Register(UserRegisterDto userRegisterDto);
+    Task<ProfileDto> GetProfile(string username);
   }
   public class AuthenticationService : IAuthenticationService
   {
@@ -142,6 +145,31 @@ namespace DUTPS.API.Services
         await DataContext.RollbackAsync(transaction);
         throw;
       }
+    }
+
+    public async Task<ProfileDto> GetProfile(string username)
+    {
+      username = username.ToLower();
+      return await _context.Users.Select(x => new ProfileDto
+      {
+        Id = x.Id,
+        Username = x.Username,
+        Email = x.Email,
+        Role = x.Role,
+        Name = x.Information.Name,
+        Gender = x.Information.Gender,
+        Birthday = x.Information.Birthday,
+        PhoneNumber = x.Information.PhoneNumber,
+        Class = x.Information.Class,
+        FacultyId = x.Information.FacultyId,
+        FalcultyName = x.Information.Faculty.Name,
+        Vehicals = x.Vehicals.Select(y => new VehicalDto
+        {
+          Id = y.Id,
+          LicensePlate = y.LicensePlate,
+          Description = y.Description
+        }).ToList()
+      }).FirstOrDefaultAsync(x => x.Username == username);
     }
   }
 }
