@@ -14,6 +14,7 @@ namespace DUTPS.API.Services
   public interface IAuthenticationService
   {
     Task<ResponseInfo> Login(UserLoginDto userLoginDto);
+    Task<ResponseInfo> Register(UserRegisterDto userRegisterDto);
   }
   public class AuthenticationService : IAuthenticationService
   {
@@ -85,6 +86,62 @@ namespace DUTPS.API.Services
           break;
       }
       return responeInfo;
+    }
+
+    public async Task<ResponseInfo> Register(UserRegisterDto userRegisterDto)
+    {
+      IDbContextTransaction transaction = null;
+      try
+      {
+        var responeInfo = new ResponseInfo();
+
+        userRegisterDto.Username = userRegisterDto.Username.ToLower();
+
+        if (await _context.Users.AnyAsync(u => u.Username == userRegisterDto.Username))
+        {
+          responeInfo.Code = CodeResponse.HAVE_ERROR;
+          responeInfo.Message = "Username is existed";
+          return responeInfo;
+        }
+
+        if (userRegisterDto.Password != userRegisterDto.ConfirmPassword)
+        {
+          responeInfo.Code = CodeResponse.NOT_VALIDATE;
+          responeInfo.Message = "Password does not match";
+          return responeInfo;
+        }
+
+        using var hmac = new HMACSHA512();
+
+        var user = new User
+        {
+          Username = userRegisterDto.Username,
+          Email = userRegisterDto.Email,
+          PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userRegisterDto.Password)),
+          PasswordSalt = hmac.Key,
+          Status = 10,
+          Role = Role.Customer.CODE
+        };
+
+        await _context.Users.AddAsync(user);
+        transaction = await _context.Database.BeginTransactionAsync();
+        await _context.SaveChangesAsync();
+
+        await _context.UserInfos.AddAsync(new UserInfo { UserId = user.Id });
+        await _context.SaveChangesAsync();
+
+        await transaction.CommitAsync();
+
+        responeInfo.Code = CodeResponse.OK;
+        responeInfo.Data.Add("accessToken", _tokenService.CreateToken(user.Username));
+        responeInfo.Data.Add("username", user.Username);
+        return responeInfo;
+      }
+      catch (Exception)
+      {
+        await DataContext.RollbackAsync(transaction);
+        throw;
+      }
     }
   }
 }

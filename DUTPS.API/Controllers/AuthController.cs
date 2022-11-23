@@ -94,5 +94,83 @@ namespace DUTPS.API.Controllers
         return StatusCode(500, new { Error = e.Message });
       }
     }
+
+    /// <summary>
+    /// user register
+    /// <para>Created at: 2022-11-10</para>
+    /// <para>Created by: Quang TN</para>
+    /// </summary>
+    /// <param name="user">Data of user from register screen</param>
+    /// <returns>Data token after register success</returns>
+    /// <remarks>
+    /// Mean of response.Code
+    /// 
+    ///     200 - Success
+    ///     201 - Error validate input data
+    ///     500 - Server error
+    ///
+    /// </remarks>
+    /// <response code="200">
+    /// Success
+    /// 
+    ///     {
+    ///         "Code": 200,
+    ///         "MsgNo": "",
+    ///         "ListError": null,
+    ///         "Data": {
+    ///             "Token": "Token",
+    ///             "Username": "Username",
+    ///         }
+    ///     }
+    ///     
+    /// Validate Error
+    /// 
+    ///     {
+    ///         "Code": 201
+    ///         "MsgNo": "",
+    ///         "ListError": {
+    ///         },
+    ///         "Data": null
+    ///     }
+    /// Exception
+    /// 
+    ///     {
+    ///         "Code": 500,
+    ///         "MsgNo": "E500",
+    ///         "ListError": null,
+    ///         "Data": {
+    ///             "Error": "Message"
+    ///         }
+    ///     }
+    ///     
+    /// </response>
+    /// <response code="200">Result after check data register</response>
+    /// <response code="500">Have exception</response>
+    [HttpPost("Register")]
+    [ProducesResponseType(typeof(ResponseInfo), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegisterDto)
+    {
+      ResponseInfo response = new ResponseInfo();
+      try
+      {
+        if (ModelState.IsValid)
+        {
+          response = await _authenticationService.Register(userRegisterDto);
+        }
+        else
+        {
+          response.Code = CodeResponse.NOT_VALIDATE;
+          response.Message = "Invalid Input";
+        }
+        if (response.Code == CodeResponse.OK) return Ok(response);
+        if (response.Code == CodeResponse.NOT_VALIDATE) return BadRequest(response);
+        if (response.Code == CodeResponse.HAVE_ERROR) return BadRequest(response);
+        return Ok(response);
+      }
+      catch (Exception e)
+      {
+        return StatusCode(500, new { Error = e.Message });
+      }
+    }
   }
 }
