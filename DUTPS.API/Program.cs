@@ -5,8 +5,20 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
+using Serilog.Extensions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+ConfigureLogging();
+
+builder.Host.UseSerilog();
 
 var services = builder.Services;
 
@@ -129,3 +141,32 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void ConfigureLogging()
+{
+	var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+	var configuration = new ConfigurationBuilder()
+		.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+		.AddJsonFile(
+			$"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json",
+			optional: true)
+		.Build();
+
+	Log.Logger = new LoggerConfiguration()
+		.Enrich.FromLogContext()
+		.Enrich.WithMachineName()
+		.WriteTo.Debug()
+		.WriteTo.Console()
+		.WriteTo.Elasticsearch(ConfigureElasticSink(configuration, environment))
+		.Enrich.WithProperty("Environment", environment)
+		.ReadFrom.Configuration(configuration)
+		.CreateLogger();
+}
+ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration, string environment)
+{
+	return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]))
+	{
+		AutoRegisterTemplate = true,
+		IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
+	};
+}
