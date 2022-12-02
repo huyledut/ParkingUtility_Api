@@ -21,7 +21,7 @@ namespace DUTPS.API.Controllers
     /// <summary>
     /// Check information of user login
     /// <para>Created at: 2022-11-08</para>
-    /// <para>Created by: Quang TN</para>
+    /// <para>Created by: CoNT</para>
     /// </summary>
     /// <param name="user">Data of user from login screen</param>
     /// <returns>Data token after login success</returns>
@@ -98,7 +98,7 @@ namespace DUTPS.API.Controllers
     /// <summary>
     /// user register
     /// <para>Created at: 2022-11-10</para>
-    /// <para>Created by: Quang TN</para>
+    /// <para>Created by: CoNT</para>
     /// </summary>
     /// <param name="user">Data of user from register screen</param>
     /// <returns>Data token after register success</returns>
