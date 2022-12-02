@@ -17,7 +17,7 @@ namespace DUTPS.API.Controllers
     /// <summary>
     /// Get list falculties
     /// <para>Created at: 2022-11-10</para>
-    /// <para>Created by: Quang TN</para>
+    /// <para>Created by: CoNT</para>
     /// </summary>
     /// <returns>List of falculties</returns>
     /// <remarks>
