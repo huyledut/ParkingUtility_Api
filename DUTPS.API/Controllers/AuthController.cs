@@ -6,6 +6,8 @@ using DUTPS.Commons.Enums;
 using DUTPS.Commons.Schemas;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sentry;
+using DUTPS.API.Dtos.Slack;
 
 namespace DUTPS.API.Controllers
 {
@@ -86,11 +88,18 @@ namespace DUTPS.API.Controllers
           response.Message = "Invalid Input";
         }
         if (response.Code == CodeResponse.OK) return Ok(response);
-        if (response.Code == CodeResponse.NOT_FOUND) return NotFound(response);
+        if (response.Code == CodeResponse.NOT_FOUND) 
+        {
+          SentrySdk.CaptureMessage("Login fail !!! \nWith data is invalid - Username:" + userLoginDto.Username + "  Password: " + userLoginDto.Password);
+          Slack.GetInstance().SendMessage("Login fail !!! \nWith data is invalid - Username:" + userLoginDto.Username + "  Password: " + userLoginDto.Password);
+          return NotFound(response);
+        }
         return Ok(response);
       }
       catch (Exception e)
       {
+        SentrySdk.CaptureMessage(e.Message);
+        Slack.GetInstance().SendMessage(e.Message);
         return StatusCode(500, new { Error = e.Message });
       }
     }
@@ -163,12 +172,24 @@ namespace DUTPS.API.Controllers
           response.Message = "Invalid Input";
         }
         if (response.Code == CodeResponse.OK) return Ok(response);
-        if (response.Code == CodeResponse.NOT_VALIDATE) return BadRequest(response);
-        if (response.Code == CodeResponse.HAVE_ERROR) return BadRequest(response);
+        if (response.Code == CodeResponse.NOT_VALIDATE) 
+        {
+          SentrySdk.CaptureMessage("Register fail !!! \nWith error status: " + response.Code);
+          Slack.GetInstance().SendMessage("Register fail !!! \nWith error status: " + response.Code);
+          return BadRequest(response);
+        }
+        if (response.Code == CodeResponse.HAVE_ERROR) 
+        {
+          SentrySdk.CaptureMessage("Register fail !!! \nWith error status: " + response.Code);
+          Slack.GetInstance().SendMessage("Register fail !!! \nWith error status: " + response.Code);
+          return BadRequest(response);
+        }
         return Ok(response);
       }
       catch (Exception e)
       {
+        SentrySdk.CaptureMessage(e.Message);
+        Slack.GetInstance().SendMessage(e.Message);
         return StatusCode(500, new { Error = e.Message });
       }
     }
