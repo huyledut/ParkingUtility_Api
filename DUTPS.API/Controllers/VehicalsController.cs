@@ -1,11 +1,13 @@
 using System.Net;
 using System.Security.Claims;
+using DUTPS.API.Dtos.Slack;
 using DUTPS.API.Dtos.Vehicals;
 using DUTPS.API.Services;
 using DUTPS.Commons.Enums;
 using DUTPS.Commons.Schemas;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sentry;
 
 namespace DUTPS.API.Controllers
 {
@@ -85,6 +87,8 @@ namespace DUTPS.API.Controllers
       }
       catch (Exception e)
       {
+        SentrySdk.CaptureMessage("Server error: " + e.Message);
+        Slack.GetInstance().SendMessage("Server error: " + e.Message);
         return StatusCode(500, new { Error = e.Message });
       }
     }
@@ -155,6 +159,8 @@ namespace DUTPS.API.Controllers
       }
       catch (Exception e)
       {
+        SentrySdk.CaptureMessage("Server error: " + e.Message);
+        Slack.GetInstance().SendMessage("Server error: " + e.Message);
         return StatusCode(500, new { Error = e.Message });
       }
     }
@@ -239,11 +245,15 @@ namespace DUTPS.API.Controllers
         {
           response.Code = CodeResponse.NOT_VALIDATE;
           response.Message = "Invalid Input";
+          SentrySdk.CaptureMessage("Create data for Vehical is invalid");
+          Slack.GetInstance().SendMessage("Create data for Vehical is invalid");
         }
         return Ok(response);
       }
       catch (Exception e)
       {
+        SentrySdk.CaptureMessage("Server error: " + e.Message);
+        Slack.GetInstance().SendMessage("Server error: " + e.Message);
         return StatusCode(500, new { Error = e.Message });
       }
     }
@@ -326,11 +336,15 @@ namespace DUTPS.API.Controllers
         else
         {
           response.Code = CodeResponse.NOT_VALIDATE;
+          SentrySdk.CaptureMessage("Update data for Vehical is invalid");
+          Slack.GetInstance().SendMessage("Update data for Vehical is invalid");
         }
         return Ok(response);
       }
       catch (Exception e)
       {
+        SentrySdk.CaptureMessage("Server error: " + e.Message);
+        Slack.GetInstance().SendMessage("Server error: " + e.Message);
         return StatusCode(500, new { Error = e.Message });
       }
     }
@@ -395,6 +409,8 @@ namespace DUTPS.API.Controllers
       }
       catch (Exception e)
       {
+        SentrySdk.CaptureMessage("Server error: " + e.Message);
+        Slack.GetInstance().SendMessage("Server error: " + e.Message);
         return StatusCode(500, new { Error = e.Message });
       }
     }
