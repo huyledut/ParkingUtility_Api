@@ -7,6 +7,7 @@ namespace DUTPS.API.Services
   public interface ICommonService
   {
     Task<List<FacultyDto>> GetFaculties();
+    int num();
   }
   public class CommonService : ICommonService
   {
@@ -24,6 +25,11 @@ namespace DUTPS.API.Services
         Id = x.Id,
         Name = x.Name
       }).ToListAsync();
+    }
+
+    public int num()
+    {
+      return 1;
     }
   }
 }
