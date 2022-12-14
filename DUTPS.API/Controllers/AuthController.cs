@@ -81,7 +81,7 @@ namespace DUTPS.API.Controllers
       {
           response.Code = CodeResponse.NOT_VALIDATE;
           response.Message = "Invalid Input";
-          return Ok(response);
+          return BadRequest(response);
       }
       try
       {
